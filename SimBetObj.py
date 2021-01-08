@@ -7,17 +7,32 @@ import unicodedata
 # Let's parse the list to get the ID and the list
 
 def read_file(filename):
+    # Number of items in the list
+    number = 2
+
+    # List of lists of item, each list containing the tag of an item
+    lists_item = [];
+
+    # Parse the file to get the tags for each item
     with open(filename,encoding = 'utf-8') as f:
         line = f.readline()
-        cnt = 1
 
-    matrix=[] #define empty matrix
-    for i in xrange(3): #total row is 3
-        row=[] #Credits for Hassan Tariq for noticing it missing
-        for j in xrange(3): #total column is 3
-            row.append(0) #adding 0 value for each column for this row
-        matrix.append(row) #add fully defined column into the row
+
+    # Trial variable for list, should be equivalent to lists_item
+    list = [["ha ha", "hi hi"],["ha ha", "he he"]]
+
+    # Design a similarity matrix
+    matrix = numpy.zeros(shape=(number,number))
+
+    # i run from 0 to num-1 and j runs from i+1 to num-1 (num here because of the syntax of range)
+    # only need to consider the upper half of the matrix because this should be a symmetrix matrix
+    for i in range(0,number): #total row is 3
+        for j in range(i+1,number): #total column is 3
+            matrix[i][j] = counter_cosine_similarity(Counter(list[i]),Counter(list[j]))
+    #print(counter_cosine_similarity(Counter(list[0]),Counter(list[1])))
     print(matrix)
+    # Save matrix into a file
+    numpy.savetxt("similarity_items_only.csv", matrix, delimiter=",")
 
 def counter_cosine_similarity(c1, c2):
     terms = set(c1).union(c2)
