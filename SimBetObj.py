@@ -11,12 +11,24 @@ def read_file(filename):
     number = 2
 
     # List of lists of item, each list containing the tag of an item
-    lists_item = [];
-
+    list_items = [];
+    list_names = [];
     # Parse the file to get the tags for each item
     with open(filename,encoding = 'utf-8') as f:
-        line = f.readline()
-
+        for line in f:
+            # get the name ID of the item
+            try:
+                name_index = line.find("oid")+6
+                try:
+                    name = line[name_index:(name_index+24)]
+                    list_names.append(name)
+                except:
+                    print("ERROR: Can't parse name")
+                    return
+            except:
+                print("ERROR: Item doesn't have an ID.")
+                return
+    print(list_names)
 
     # Trial variable for list, should be equivalent to lists_item
     list = [["ha ha", "hi hi"],["ha ha", "he he"]]
@@ -45,7 +57,7 @@ def counter_cosine_similarity(c1, c2):
 
 
 def main():
-    read_file('C:/Users/Lin/OneDrive/Documents/Sutygon/info1data.txt')
+    read_file('C:/Users/Lin/OneDrive/Documents/Sutygon/info.txt')
 
 
 if __name__ == "__main__":
