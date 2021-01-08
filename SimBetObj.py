@@ -68,10 +68,6 @@ def read_file(filename):
                 print("ERROR: Item doesn't have a tag")
                 return
             list_items.append(total_string)
-    print(list_items)
-
-    # # Trial variable for list, should be equivalent to lists_item
-    # list = [["ha ha", "hi hi"],["ha ha", "he he"]]
 
     # Design a similarity matrix
     matrix = numpy.zeros(shape=(number,number))
@@ -81,9 +77,8 @@ def read_file(filename):
     for i in range(0,number): #total row is 3
         for j in range(i+1,number): #total column is 3
             matrix[i][j] = counter_cosine_similarity(Counter(list_items[i]),Counter(list_items[j]))
-    #print(counter_cosine_similarity(Counter(list[0]),Counter(list[1])))
-    print(matrix)
-    # Save matrix into a file
+
+    # Save matrix into a file, each number has 4 digit of significant figure
     numpy.savetxt("similarity_items_only.csv", matrix, fmt = "%.4f", delimiter=",")
 
 def counter_cosine_similarity(c1, c2):
@@ -92,8 +87,6 @@ def counter_cosine_similarity(c1, c2):
     magA = math.sqrt(sum(c1.get(k, 0)**2 for k in terms))
     magB = math.sqrt(sum(c2.get(k, 0)**2 for k in terms))
     return dotprod / (magA * magB)
-
-# print(counter_cosine_similarity(counterA, counterB) * 100)
 
 
 def main():
