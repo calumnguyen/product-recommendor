@@ -6,7 +6,7 @@ import unicodedata
 # Data structure for each
 # Let's parse the list to get the ID and the list
 
-def read_file(filename):
+def read_file(filename, choice):
     # Number of items in the list
     number = 0
 
@@ -37,7 +37,6 @@ def read_file(filename):
                 name_index = line.find("name")+7
                 try:
                     name = line[name_index:(line.find("produ")-3)]
-                    print(name)
                     try:
                         total_string = name.replace(',','')
                     except:
@@ -69,6 +68,12 @@ def read_file(filename):
                 return
             list_items.append(total_string)
 
+    # if want to add a general item
+    if choice == "2":
+        number += 1
+        description = input("Please enter description as a string without comma")
+        list_items.append(description)
+
     # Design a similarity matrix
     matrix = numpy.zeros(shape=(number,number))
 
@@ -81,6 +86,32 @@ def read_file(filename):
     # Save matrix into a file, each number has 4 digit of significant figure
     numpy.savetxt("similarity_items_only.csv", matrix, fmt = "%.4f", delimiter=",")
 
+# This function inserts the entry score into the topscore if it lies in the range
+# topscore is ordered from biggest to smallest
+def insertscore(id,score,topscore,N)
+    if score < topscore[N-1]:
+        return topscore
+    else:
+        for i in range(0, N):
+            if score > topscore[i]
+                topscore.inserts(i,score)
+                topname.inserts(i,id)
+                topscore.pop()
+                topname.pop()
+
+# This function finds the top-N items that are most related to the item in position (x)
+def top(matrix,N,x):
+    # List of N zeros -> foundation of the score
+    topscore = [0]*N
+    # List of name
+    topname = ["Nan"]*N
+
+    # Traverse the matrix to find the top score
+    for i in range(0,number): #total row is 3
+        for j in range(i+1,number): #total column is 3
+            topscore = insertscore(score,topscore,N)
+    return topname
+
 def counter_cosine_similarity(c1, c2):
     terms = set(c1).union(c2)
     dotprod = sum(c1.get(k, 0) * c2.get(k, 0) for k in terms)
@@ -90,7 +121,14 @@ def counter_cosine_similarity(c1, c2):
 
 
 def main():
-    read_file('C:/Users/Lin/OneDrive/Documents/Sutygon/info.txt')
+
+    # Allow user to enter the ID of the products to generate top-10 cloths
+    # that are similar
+    print("Hello customer!")
+    print("Press 1 if you have the ID of the cloth and want to find similar item.")
+    print("Press 2 if you want to enter general description of the item")
+    choice = input("Please enter your choice here: ")
+    read_file('C:/Users/Lin/OneDrive/Documents/Sutygon/info.txt', choice)
 
 
 if __name__ == "__main__":
